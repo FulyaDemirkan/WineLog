@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">WineLog</string>
+    <string name="hint_text_wine_name">Wine Name</string>
+    <string name="hint_text_year">Year</string>
+    <string name="hint_text_wineryName">Winery Name</string>
+    <string name="hint_text_date_of_visit">Date of Visit</string>
+
+    <string name="label_style">Style</string>
+    <string name="style_light">Light-Bodied &amp; Fruity</string>
+    <string name="style_medium">Medium-Bodied &amp; Fruity</string>
+    <string name="style_full_smooth">Full-Bodied &amp; Smooth</string>
+    <string name="style_full_firm">Full-Bodied &amp; Firm</string>
+
+    <string name="label_oak">Oak</string>
+    <string name="oak_none">None</string>
+    <string name="oak_subtle">Subtle</string>
+    <string name="oak_intense">Intense</string>
+
+    <string name="label_flavour_intensity">Flavour Intensity</string>
+    <string name="flavour_mild">Mild</string>
+    <string name="flavour_medium">Medium</string>
+    <string name="flavour_bold">Bold</string>
+
+    <string name="hint_text_main_flavours">Main Flavours</string>
+    <string name="label_rating">Rating</string>
+    <string name="hint_text_notes">Notes</string>
+    <string name="button_label_add">Add</string>
+    <string name="new_entry">New Entry</string>
+    <string name="edit_wine">Edit Wine</string>
+    <string name="expanded_image">Expanded Image</string>
+    <string name="image">Image</string>
+
+
+
 </resources>
