@@ -1,9 +1,16 @@
-package sheridan.demirkaf.winelog;
+package sheridan.demirkaf.winelog.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "wine")
 public class Wine {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String name;
     private String year;
     private String wineryName;
@@ -12,11 +19,14 @@ public class Wine {
     private int oak;
     private int flavourIntensity;
     private ArrayList<String> mainFlavours;
-    private int rating;
+    private float rating;
     private String notes;
     private String base64Image;
 
-    public Wine(String name, String year, String wineryName, Date dateOfVisit, String style, int oak, int flavourIntensity, ArrayList<String> mainFlavours, int rating, String notes, String base64Image) {
+    public Wine(int id, String name, String year, String wineryName, Date dateOfVisit,
+                String style, int oak, int flavourIntensity, ArrayList<String> mainFlavours,
+                float rating, String notes, String base64Image) {
+        this.id = id;
         this.name = name;
         this.year = year;
         this.wineryName = wineryName;
@@ -30,7 +40,33 @@ public class Wine {
         this.base64Image = base64Image;
     }
 
+    @Ignore
+    public Wine(String name, String year, String wineryName, Date dateOfVisit, String style,
+                int oak, int flavourIntensity, ArrayList<String> mainFlavours, float rating,
+                String notes, String base64Image) {
+        this.name = name;
+        this.year = year;
+        this.wineryName = wineryName;
+        this.dateOfVisit = dateOfVisit;
+        this.style = style;
+        this.oak = oak;
+        this.flavourIntensity = flavourIntensity;
+        this.mainFlavours = mainFlavours;
+        this.rating = rating;
+        this.notes = notes;
+        this.base64Image = base64Image;
+    }
+
+    @Ignore
     public Wine() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -97,11 +133,11 @@ public class Wine {
         this.mainFlavours = mainFlavours;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
