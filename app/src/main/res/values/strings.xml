@@ -29,7 +29,9 @@
     <string name="edit_wine">Edit Wine</string>
     <string name="expanded_image">Expanded Image</string>
     <string name="image">Image</string>
-
+    <string name="about">About</string>
+    <string name="action_add_sample_data">Add Sample Data</string>
+    <string name="delete_all">Delete All</string>
 
 
 </resources>

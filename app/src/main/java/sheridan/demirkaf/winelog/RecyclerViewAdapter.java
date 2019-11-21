@@ -1,8 +1,6 @@
 package sheridan.demirkaf.winelog;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import sheridan.demirkaf.winelog.beans.Wine;
 import sheridan.demirkaf.winelog.utility.ImageConverter;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
