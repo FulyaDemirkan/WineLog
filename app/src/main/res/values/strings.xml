@@ -33,5 +33,6 @@
     <string name="action_add_sample_data">Add Sample Data</string>
     <string name="delete_all">Delete All</string>
 
-
+    <string name="api_key">AIzaSyCmaDwi0IOglBttcKBtG7Tcvcktk8wq07Q</string>
+    <string name="winery_name_location">Winery Name/Location</string>
 </resources>
