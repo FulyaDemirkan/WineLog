@@ -295,4 +295,21 @@
         android:contentDescription="@string/expanded_image"
         android:visibility="invisible" />
 
+
+    <TextView
+        android:id="@+id/label_winery_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gap0"
+        android:paddingTop="@dimen/gap0"
+        android:text="@string/winery_name_location"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/secondaryTextColor" />
+
+    <fragment android:id="@+id/autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        />
+
 </LinearLayout>
