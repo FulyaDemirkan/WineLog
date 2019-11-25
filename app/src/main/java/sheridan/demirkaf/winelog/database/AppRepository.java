@@ -38,7 +38,11 @@ public class AppRepository {
         });
     }
 
-    private LiveData<List<Wine>> getAllWines() {
+    public Wine getWineById(int wineId) {
+        return mDb.wineDAO().getWineById(wineId);
+    }
+
+    public LiveData<List<Wine>> getAllWines() {
         return mDb.wineDAO().getAllWines();
     }
 

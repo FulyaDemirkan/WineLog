@@ -13,6 +13,8 @@ public class Wine {
     private int id;
     private String name;
     private String year;
+    private String category;
+    private String type;
     private String wineryName;
     private Date dateOfVisit;
     private String style;
@@ -23,12 +25,14 @@ public class Wine {
     private String notes;
     private String base64Image;
 
-    public Wine(int id, String name, String year, String wineryName, Date dateOfVisit,
+    public Wine(int id, String name, String year, String category, String type, String wineryName, Date dateOfVisit,
                 String style, int oak, int flavourIntensity, ArrayList<String> mainFlavours,
                 float rating, String notes, String base64Image) {
         this.id = id;
         this.name = name;
         this.year = year;
+        this.category = category;
+        this.type = type;
         this.wineryName = wineryName;
         this.dateOfVisit = dateOfVisit;
         this.style = style;
@@ -41,11 +45,13 @@ public class Wine {
     }
 
     @Ignore
-    public Wine(String name, String year, String wineryName, Date dateOfVisit, String style,
+    public Wine(String name, String year, String category, String type, String wineryName, Date dateOfVisit, String style,
                 int oak, int flavourIntensity, ArrayList<String> mainFlavours, float rating,
                 String notes, String base64Image) {
         this.name = name;
         this.year = year;
+        this.category = category;
+        this.type = type;
         this.wineryName = wineryName;
         this.dateOfVisit = dateOfVisit;
         this.style = style;
@@ -83,6 +89,22 @@ public class Wine {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getWineryName() {

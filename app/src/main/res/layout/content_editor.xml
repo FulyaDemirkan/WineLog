@@ -75,11 +75,91 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/label_winery_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
+        android:paddingTop="@dimen/gap0"
+        android:text="@string/winery_name_location"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <fragment
+        android:id="@+id/autocomplete_fragment"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/label_date_of_visit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap1"
+        android:paddingTop="@dimen/gap0"
+        android:text="@string/hint_text_date_of_visit"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_date" />
+
+        <TextView
+            android:id="@+id/txt_date_of_visit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/label_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
+        android:paddingTop="@dimen/gap0"
+        android:text="@string/label_category"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+        android:id="@+id/spinner_search_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gap1"
+        app:hintText="@string/hint_select_one" />
+
+    <TextView
+        android:id="@+id/label_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
+        android:paddingTop="@dimen/gap0"
+        android:text="@string/label_type"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+        android:id="@+id/spinner_search_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gap1"
+        app:hintText="@string/hint_select_one" />
+
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGrpStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
         android:paddingTop="@dimen/gap0"
         app:singleLine="false"
         app:singleSelection="true">
@@ -89,8 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/gap0"
             android:text="@string/label_style"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipStyleLight"
@@ -129,15 +208,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/gap0"
+        android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
         android:paddingTop="@dimen/gap0"
         android:text="@string/label_oak"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/secondaryTextColor" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbar_oak"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,7 +231,6 @@
             android:layout_weight="1"
             android:text="@string/oak_none"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor"
             android:textSize="14sp" />
 
         <TextView
@@ -162,7 +241,6 @@
             android:text="@string/oak_subtle"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor"
             android:textSize="14sp" />
 
         <TextView
@@ -173,7 +251,6 @@
             android:text="@string/oak_intense"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -181,13 +258,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/gap0"
+        android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
         android:paddingTop="@dimen/gap0"
         android:text="@string/label_flavour_intensity"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/secondaryTextColor" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbar_flavour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -204,7 +282,6 @@
             android:layout_weight="1"
             android:text="@string/flavour_mild"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor"
             android:textSize="14sp" />
 
         <TextView
@@ -215,7 +292,6 @@
             android:text="@string/flavour_medium"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor"
             android:textSize="14sp" />
 
         <TextView
@@ -226,7 +302,6 @@
             android:text="@string/flavour_bold"
             android:textAlignment="textEnd"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/secondaryTextColor"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -254,13 +329,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/gap0"
+        android:layout_marginTop="@dimen/gap1"
+        android:layout_marginBottom="@dimen/gap0"
         android:paddingTop="@dimen/gap0"
         android:text="@string/label_rating"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/secondaryTextColor" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -295,21 +371,5 @@
         android:contentDescription="@string/expanded_image"
         android:visibility="invisible" />
 
-
-    <TextView
-        android:id="@+id/label_winery_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/gap0"
-        android:paddingTop="@dimen/gap0"
-        android:text="@string/winery_name_location"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/secondaryTextColor" />
-
-    <fragment android:id="@+id/autocomplete_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-        />
 
 </LinearLayout>

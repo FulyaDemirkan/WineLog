@@ -4,6 +4,9 @@
     <string name="hint_text_year">Year</string>
     <string name="hint_text_wineryName">Winery Name</string>
     <string name="hint_text_date_of_visit">Date of Visit</string>
+    <string name="label_category">Category</string>
+    <string name="label_type">Type</string>
+    <string name="hint_select_one">Select One</string>
 
     <string name="label_style">Style</string>
     <string name="style_light">Light-Bodied &amp; Fruity</string>
@@ -24,15 +27,54 @@
     <string name="hint_text_main_flavours">Main Flavours</string>
     <string name="label_rating">Rating</string>
     <string name="hint_text_notes">Notes</string>
+
     <string name="button_label_add">Add</string>
     <string name="new_entry">New Entry</string>
     <string name="edit_wine">Edit Wine</string>
+
     <string name="expanded_image">Expanded Image</string>
     <string name="image">Image</string>
     <string name="about">About</string>
+
     <string name="action_add_sample_data">Add Sample Data</string>
     <string name="delete_all">Delete All</string>
 
     <string name="api_key">AIzaSyCmaDwi0IOglBttcKBtG7Tcvcktk8wq07Q</string>
-    <string name="winery_name_location">Winery Name/Location</string>
+    <string name="winery_name_location">Winery Name / Location</string>
+
+    <string-array name="types">
+        <item>Baco Noir</item>
+        <item>Barbera</item>
+        <item>Cabernet Franc</item>
+        <item>Cabernet Sauvignon</item>
+        <item>Carmenere</item>
+        <item>Cayuga White</item>
+        <item>Chardonnay</item>
+        <item>Gamay</item>
+        <item>Gewurztraminer</item>
+        <item>L’Acadie</item>
+        <item>Malbec</item>
+        <item>Marechal Foch</item>
+        <item>Merlot</item>
+        <item>Pinot Gris</item>
+        <item>Pinot Noir</item>
+        <item>Reichensteiner</item>
+        <item>Riesling</item>
+        <item>Sauvignon Blanc</item>
+        <item>Sémillon</item>
+        <item>Seyval Blanc</item>
+        <item>Zinfandel</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Red Wine</item>
+        <item>White Wine</item>
+        <item>Rosé Wine</item>
+        <item>Ice Wine</item>
+        <item>Sparkling Wine</item>
+        <item>Fortified Wine</item>
+        <item>Desert Wine</item>
+        <item>Other</item>
+    </string-array>
 </resources>

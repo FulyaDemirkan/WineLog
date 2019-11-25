@@ -22,6 +22,14 @@ public class SampleData {
     private static final String SAMPLE_WINE_WINERY_2 = "Winery2";
     private static final String SAMPLE_WINE_WINERY_3 = "Winery3";
 
+    private static final String SAMPLE_WINE_CATEGORY_1 = "Wine1 Category";
+    private static final String SAMPLE_WINE_CATEGORY_2 = "Wine2 Category";
+    private static final String SAMPLE_WINE_CATEGORY_3 = "Wine3 Category";
+
+    private static final String SAMPLE_WINE_TYPE_1 = "Wine1 Type";
+    private static final String SAMPLE_WINE_TYPE_2 = "Wine2 Type";
+    private static final String SAMPLE_WINE_TYPE_3 = "Wine3 Type";
+
     private static final String SAMPLE_WINE_STYLE_1 = "Wine1 Style";
     private static final String SAMPLE_WINE_STYLE_2 = "Wine2 Style";
     private static final String SAMPLE_WINE_STYLE_3 = "Wine3 Style";
@@ -85,15 +93,15 @@ public class SampleData {
     public static List<Wine> getWines() {
         List<Wine> wines = new ArrayList<>();
         // diff is used for sorting by date
-        wines.add(new Wine(SAMPLE_WINE_TITLE_1, SAMPLE_WINE_YEAR_1, SAMPLE_WINE_WINERY_1,
+        wines.add(new Wine(SAMPLE_WINE_TITLE_1, SAMPLE_WINE_YEAR_1, SAMPLE_WINE_CATEGORY_1, SAMPLE_WINE_TYPE_1, SAMPLE_WINE_WINERY_1,
                 getDate(0), SAMPLE_WINE_STYLE_1, SAMPLE_WINE_OAK_1, SAMPLE_WINE_FLAVOUR_1,
                 SAMPLE_WINE_MAIN_FLAV_1, SAMPLE_WINE_RATING_1, SAMPLE_WINE_NOTES_1,
                 SAMPLE_WINE_IMG_1));
-        wines.add(new Wine(SAMPLE_WINE_TITLE_2, SAMPLE_WINE_YEAR_2, SAMPLE_WINE_WINERY_2,
+        wines.add(new Wine(SAMPLE_WINE_TITLE_2, SAMPLE_WINE_YEAR_2, SAMPLE_WINE_CATEGORY_2, SAMPLE_WINE_TYPE_2, SAMPLE_WINE_WINERY_2,
                 getDate(3), SAMPLE_WINE_STYLE_2, SAMPLE_WINE_OAK_2, SAMPLE_WINE_FLAVOUR_2,
                 SAMPLE_WINE_MAIN_FLAV_2, SAMPLE_WINE_RATING_2, SAMPLE_WINE_NOTES_2,
                 SAMPLE_WINE_IMG_2));
-        wines.add(new Wine(SAMPLE_WINE_TITLE_3, SAMPLE_WINE_YEAR_3, SAMPLE_WINE_WINERY_3,
+        wines.add(new Wine(SAMPLE_WINE_TITLE_3, SAMPLE_WINE_YEAR_3, SAMPLE_WINE_CATEGORY_3, SAMPLE_WINE_TYPE_3, SAMPLE_WINE_WINERY_3,
                 getDate(5), SAMPLE_WINE_STYLE_3, SAMPLE_WINE_OAK_3, SAMPLE_WINE_FLAVOUR_3,
                 SAMPLE_WINE_MAIN_FLAV_3, SAMPLE_WINE_RATING_3, SAMPLE_WINE_NOTES_3,
                 SAMPLE_WINE_IMG_3));

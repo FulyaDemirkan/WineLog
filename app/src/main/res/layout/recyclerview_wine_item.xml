@@ -31,7 +31,6 @@
         android:layout_marginEnd="@dimen/gap0"
         android:layout_marginBottom="@dimen/gap0"
         android:layout_toEndOf="@id/listImageView"
-        android:textColor="@color/secondaryTextColor"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -46,7 +45,6 @@
         android:layout_marginBottom="@dimen/gap0"
         android:layout_toLeftOf="@id/fab"
         android:layout_toEndOf="@id/listImageView"
-        android:textColor="@color/secondaryTextColor"
         android:textSize="24sp"
         android:textStyle="bold" />
 
