@@ -1,7 +1,9 @@
 package sheridan.demirkaf.winelog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import sheridan.demirkaf.winelog.beans.Wine;
+import sheridan.demirkaf.winelog.utility.Constants;
 import sheridan.demirkaf.winelog.utility.ImageConverter;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private Context mContext;
-    private List<Wine> mWineList;
-    private static final int REQUEST_CODE = 1;
+    private static final String TAG = "EditorActivityDebug";
+
+    private final Context mContext;
+    private final List<Wine> mWineList;
 
     RecyclerViewAdapter(Context mContext, List<Wine> mWineList) {
         this.mContext = mContext;
@@ -38,24 +44,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
-        Wine wine = mWineList.get(i);
+        final Wine wine = mWineList.get(i);
         viewHolder.txtName.setText(wine.getName());
 
-        if(!wine.getBase64Image().equals("")) {
+        if(wine.getBase64Image() != null && !wine.getBase64Image().equals("")) {
             Bitmap bitmap = ImageConverter.base64ToBitmap(wine.getBase64Image());
             viewHolder.imageView.setImageBitmap(bitmap);
         }
         else {
             viewHolder.imageView.setImageResource(R.drawable.image_placeholder);
         }
-/*
+
         viewHolder.fab.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DetailsActivity.class);
-            //intent.putExtra("wine", wine);
-            intent.putExtra("index", i);
-            ((Activity) mContext).startActivityForResult(intent, REQUEST_CODE);
-        });*/
+            Intent intent = new Intent(mContext, EditorActivity.class);
+            intent.putExtra(Constants.WINE_ID_KEY, wine.getId());
+            mContext.startActivity(intent);
+        });
     }
 
     @Override
@@ -64,16 +68,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.listName)
         TextView txtName;
+
+        @BindView(R.id.listImageView)
         ImageView imageView;
+
+        @BindView(R.id.fab)
         FloatingActionButton fab;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            txtName = itemView.findViewById(R.id.listName);
-            imageView = itemView.findViewById(R.id.listImageView);
-            fab = itemView.findViewById(R.id.fab);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

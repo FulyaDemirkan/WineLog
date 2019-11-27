@@ -25,8 +25,8 @@ public class Wine {
     private String notes;
     private String base64Image;
 
-    public Wine(int id, String name, String year, String category, String type, String wineryName, Date dateOfVisit,
-                String style, int oak, int flavourIntensity, ArrayList<String> mainFlavours,
+    public Wine(int id, String name, String year, String category, String type, String wineryName,
+                Date dateOfVisit, String style, int oak, int flavourIntensity, ArrayList<String> mainFlavours,
                 float rating, String notes, String base64Image) {
         this.id = id;
         this.name = name;
@@ -45,9 +45,9 @@ public class Wine {
     }
 
     @Ignore
-    public Wine(String name, String year, String category, String type, String wineryName, Date dateOfVisit, String style,
-                int oak, int flavourIntensity, ArrayList<String> mainFlavours, float rating,
-                String notes, String base64Image) {
+    public Wine(String name, String year, String category, String type, String wineryName,
+                Date dateOfVisit, String style, int oak, int flavourIntensity,
+                ArrayList<String> mainFlavours, float rating, String notes, String base64Image) {
         this.name = name;
         this.year = year;
         this.category = category;
@@ -91,22 +91,6 @@ public class Wine {
         this.year = year;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getWineryName() {
         return wineryName;
     }
@@ -121,6 +105,22 @@ public class Wine {
 
     public void setDateOfVisit(Date dateOfVisit) {
         this.dateOfVisit = dateOfVisit;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStyle() {
@@ -179,4 +179,23 @@ public class Wine {
         this.base64Image = base64Image;
     }
 
+    @Override
+    public String toString() {
+        return "Wine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", year='" + year + '\'' +
+                ", category='" + category + '\'' +
+                ", type='" + type + '\'' +
+                ", wineryName='" + wineryName + '\'' +
+                ", dateOfVisit=" + dateOfVisit +
+                ", style='" + style + '\'' +
+                ", oak=" + oak +
+                ", flavourIntensity=" + flavourIntensity +
+                ", mainFlavours=" + mainFlavours +
+                ", rating=" + rating +
+                ", notes='" + notes + '\'' +
+                ", base64Image='" + base64Image + '\'' +
+                '}';
+    }
 }
