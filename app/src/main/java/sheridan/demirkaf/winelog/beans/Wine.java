@@ -20,7 +20,7 @@ public class Wine {
     private String style;
     private int oak;
     private int flavourIntensity;
-    private ArrayList<String> mainFlavours;
+    private ArrayList<String> mainFlavours = new ArrayList<>();;
     private float rating;
     private String notes;
     private String base64Image;
@@ -148,6 +148,10 @@ public class Wine {
     }
 
     public ArrayList<String> getMainFlavours() {
+        if (mainFlavours == null) {
+            mainFlavours = new ArrayList<>();
+            return mainFlavours;
+        }
         return mainFlavours;
     }
 
