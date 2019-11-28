@@ -124,8 +124,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     @BindView(R.id.txtNotes)
     TextView mTxtNotes;
 
-    private boolean mNewEntry, mEditing;
-
     AutocompleteSupportFragment autocompleteFragment;
 
     @Override
@@ -168,15 +166,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
-        
+
+        initAutocompleteFragment();
         initCategorySpinner();
         initTypeSpinner();
         initViewModel();
         initImage();
         initChipGroupMaterials();
-
-        // TODO: CHANGE THIS FOR LOCATION, IF ON EDIT MODE
-        initAutocompleteFragment("");
     }
 
     private void initViewModel() {
@@ -193,9 +189,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 mSpinnerType.setSelection(mTypeAdapter.getPosition(wine.getType()));
 
                 mWineryName = wine.getWineryName();
+                autocompleteFragment.setText(mWineryName);
 
                 mDateOfVisit = wine.getDateOfVisit();
-                mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this).format(wine.getDateOfVisit()));
+                mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this)
+                        .format(wine.getDateOfVisit()));
 
                 switch (wine.getStyle()) {
                     case "Light-Bodied & Fruity":
@@ -284,13 +282,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
-    private void initAutocompleteFragment(String initialLocation) {
+    private void initAutocompleteFragment() {
         // Initialize the AutocompleteSupportFragment.
         autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME));
-        autocompleteFragment.setText(initialLocation);
         autocompleteFragment.setHint(this.getString(R.string.autocomplete_hint));
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
