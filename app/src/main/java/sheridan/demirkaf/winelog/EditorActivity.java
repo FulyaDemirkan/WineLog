@@ -293,9 +293,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
                 mWineryName = place.getName();
+                EditText inputAutocomplete = autocompleteFragment.getView()
+                        .findViewById(R.id.places_autocomplete_search_input);
+                inputAutocomplete.setError(null);
+                inputAutocomplete.setHintTextColor(Color.GRAY);
+                autocompleteFragment.setHint(getString(R.string.autocomplete_hint));
             }
 
             @Override
@@ -391,13 +395,20 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     private boolean validateRequiredFields() {
 
-        String wineName = mWineName.getText() != null ? mWineName.getText().toString() : "";
+        String wineName = mWineName.getText() != null ? mWineName.getText().toString().trim() : "";
+
+        // getting text like this because when user clicks on x in autocomplete input box, it does
+        // not reset mWineryName
+        EditText inputAutocomplete = autocompleteFragment.getView()
+                .findViewById(R.id.places_autocomplete_search_input);
+        String wineryName = inputAutocomplete.getText() != null ?
+                inputAutocomplete.getText().toString().trim() : "";
 
         if(wineName.isEmpty()){
             mWineName.setError("Wine name cannot be empty");
             return false;
         }
-
+//
         if(mCategory == null || mCategory.isEmpty() || mCategory.equals("Select One...")){
             TextView errorText = (TextView)mSpinnerCategory.getSelectedView();
             errorText.setError("");
@@ -405,11 +416,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             errorText.setText(getString(R.string.error_select_category));
             return false;
         }
-/*
-        if(mWineryName == null || mWineryName.isEmpty()) {
-            mWineryName.setError("Winery name cannot be empty");
+
+        if(wineryName.isEmpty()) {
+            inputAutocomplete.setError("Location cannot be empty");
+            inputAutocomplete.setHintTextColor(Color.RED);
+            autocompleteFragment.setHint("Location cannot be empty");
             return false;
-        }*/
+        }
         return true;
     }
 
