@@ -49,6 +49,7 @@
     <string name="delete_one_confirmation">Do you want to delete this wine?</string>
     <string name="delete_all_confirmation">Do you want to delete all wines?</string>
 
+    <string name="autocomplete_hint">Location name or address</string>
     <string-array name="types">
         <item>Select One...</item>
         <item>Baco Noir</item>

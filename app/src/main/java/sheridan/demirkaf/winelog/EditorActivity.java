@@ -35,8 +35,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -122,6 +124,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     @BindView(R.id.txtNotes)
     TextView mTxtNotes;
 
+    AutocompleteSupportFragment autocompleteFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +166,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
-        
+
         initAutocompleteFragment();
         initCategorySpinner();
         initTypeSpinner();
@@ -185,9 +189,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 mSpinnerType.setSelection(mTypeAdapter.getPosition(wine.getType()));
 
                 mWineryName = wine.getWineryName();
+                autocompleteFragment.setText(mWineryName);
 
                 mDateOfVisit = wine.getDateOfVisit();
-                mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this).format(wine.getDateOfVisit()));
+                mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this)
+                        .format(wine.getDateOfVisit()));
 
                 switch (wine.getStyle()) {
                     case "Light-Bodied & Fruity":
@@ -278,22 +284,24 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void initAutocompleteFragment() {
         // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+        autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME));
+        autocompleteFragment.setHint(this.getString(R.string.autocomplete_hint));
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
                 mWineryName = place.getName();
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
+                Toast.makeText(EditorActivity.this,
+                        "There was an error retrieving the place", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
@@ -526,6 +534,10 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        autocompleteFragment.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult: " + resultCode);
+
         Context context = this.getBaseContext();
 
         if(resultCode != RESULT_CANCELED) {

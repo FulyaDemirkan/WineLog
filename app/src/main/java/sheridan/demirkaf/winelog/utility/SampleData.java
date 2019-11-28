@@ -64,9 +64,9 @@ public class SampleData {
         }
     };
 
-    private static final float SAMPLE_WINE_RATING_1 = 10;
-    private static final float SAMPLE_WINE_RATING_2 = 9;
-    private static final float SAMPLE_WINE_RATING_3 = 8;
+    private static final float SAMPLE_WINE_RATING_1 = 5;
+    private static final float SAMPLE_WINE_RATING_2 = 4;
+    private static final float SAMPLE_WINE_RATING_3 = 3.5F;
 
     private static final String SAMPLE_WINE_NOTES_1 = "Wine1 random notes";
     private static final String SAMPLE_WINE_NOTES_2 = "Wine2 random notes";
