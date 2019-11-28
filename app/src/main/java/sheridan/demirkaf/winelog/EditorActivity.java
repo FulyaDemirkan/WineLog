@@ -103,6 +103,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     private boolean mNewEntry, mEditing;
 
+    AutocompleteSupportFragment autocompleteFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,16 +182,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void initAutocompleteFragment() {
         // Initialize the AutocompleteSupportFragment.
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+        autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME));
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getAddress());
                 mWineryName = place.getName();
             }
 
@@ -320,6 +322,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        autocompleteFragment.onActivityResult(requestCode, resultCode, data);
         Log.i(TAG, "onActivityResult: " + resultCode);
 
         Context context = this.getBaseContext();
