@@ -22,25 +22,25 @@ public class SampleData {
     private static final String SAMPLE_WINE_WINERY_2 = "Winery2";
     private static final String SAMPLE_WINE_WINERY_3 = "Winery3";
 
-    private static final String SAMPLE_WINE_CATEGORY_1 = "Wine1 Category";
-    private static final String SAMPLE_WINE_CATEGORY_2 = "Wine2 Category";
-    private static final String SAMPLE_WINE_CATEGORY_3 = "Wine3 Category";
+    private static final String SAMPLE_WINE_CATEGORY_1 = "Red Wine";
+    private static final String SAMPLE_WINE_CATEGORY_2 = "White Wine";
+    private static final String SAMPLE_WINE_CATEGORY_3 = "Ice Wine";
 
-    private static final String SAMPLE_WINE_TYPE_1 = "Wine1 Type";
-    private static final String SAMPLE_WINE_TYPE_2 = "Wine2 Type";
-    private static final String SAMPLE_WINE_TYPE_3 = "Wine3 Type";
+    private static final String SAMPLE_WINE_TYPE_1 = "Cabernet Sauvignon";
+    private static final String SAMPLE_WINE_TYPE_2 = "Riesling";
+    private static final String SAMPLE_WINE_TYPE_3 = "Sauvignon Blanc";
 
-    private static final String SAMPLE_WINE_STYLE_1 = "Wine1 Style";
-    private static final String SAMPLE_WINE_STYLE_2 = "Wine2 Style";
-    private static final String SAMPLE_WINE_STYLE_3 = "Wine3 Style";
+    private static final String SAMPLE_WINE_STYLE_1 = "Full-Bodied & Firm";
+    private static final String SAMPLE_WINE_STYLE_2 = "Light-Bodied & Fruity";
+    private static final String SAMPLE_WINE_STYLE_3 = "Medium-Bodied & Fruity";
 
-    private static final int SAMPLE_WINE_OAK_1 = 1;
-    private static final int SAMPLE_WINE_OAK_2 = 2;
-    private static final int SAMPLE_WINE_OAK_3 = 3;
+    private static final int SAMPLE_WINE_OAK_1 = 25;
+    private static final int SAMPLE_WINE_OAK_2 = 50;
+    private static final int SAMPLE_WINE_OAK_3 = 75;
 
-    private static final int SAMPLE_WINE_FLAVOUR_1 = 1;
-    private static final int SAMPLE_WINE_FLAVOUR_2 = 2;
-    private static final int SAMPLE_WINE_FLAVOUR_3 = 3;
+    private static final int SAMPLE_WINE_FLAVOUR_1 = 75;
+    private static final int SAMPLE_WINE_FLAVOUR_2 = 50;
+    private static final int SAMPLE_WINE_FLAVOUR_3 = 25;
 
     private static final ArrayList<String> SAMPLE_WINE_MAIN_FLAV_1 = new ArrayList<String>() {
         {

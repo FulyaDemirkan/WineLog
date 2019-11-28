@@ -6,7 +6,7 @@
     <string name="hint_text_date_of_visit">Date of Visit</string>
     <string name="label_category">Category</string>
     <string name="label_type">Type</string>
-    <string name="hint_select_one">Select One</string>
+    <string name="error_select_category">Category cannot be empty</string>
 
     <string name="label_style">Style</string>
     <string name="style_light">Light-Bodied &amp; Fruity</string>
@@ -29,20 +29,28 @@
     <string name="hint_text_notes">Notes</string>
 
     <string name="button_label_add">Add</string>
-    <string name="new_entry">New Entry</string>
-    <string name="edit_wine">Edit Wine</string>
+    <string name="new_entry">New</string>
+    <string name="edit_wine">Edit</string>
 
     <string name="expanded_image">Expanded Image</string>
     <string name="image">Image</string>
-    <string name="about">About</string>
-
-    <string name="action_add_sample_data">Add Sample Data</string>
-    <string name="delete_all">Delete All</string>
 
     <string name="api_key">AIzaSyCmaDwi0IOglBttcKBtG7Tcvcktk8wq07Q</string>
     <string name="winery_name_location">Winery Name / Location</string>
 
+    <string name="winelog_project">WineLog Project</string>
+    <string name="about">About</string>
+    <string name="author">"Fulya Demirkan,\nhttps://fulya.demirkan.info/ \n\nAugusto A. P. Goncalez, \nhttp://www.augustoapg.com/\n\nSheridan College, 2019"</string>
+
+    <string name="action_add_sample_data">Add Sample Data</string>
+
+    <string name="delete">Delete</string>
+    <string name="delete_all">Delete All</string>
+    <string name="delete_one_confirmation">Do you want to delete this wine?</string>
+    <string name="delete_all_confirmation">Do you want to delete all wines?</string>
+
     <string-array name="types">
+        <item>Select One...</item>
         <item>Baco Noir</item>
         <item>Barbera</item>
         <item>Cabernet Franc</item>
@@ -68,6 +76,7 @@
     </string-array>
 
     <string-array name="categories">
+        <item>Select One...</item>
         <item>Red Wine</item>
         <item>White Wine</item>
         <item>Rosé Wine</item>
