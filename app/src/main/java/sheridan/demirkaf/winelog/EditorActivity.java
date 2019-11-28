@@ -29,8 +29,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -131,8 +133,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
-        
-        initAutocompleteFragment();
+
+        // TODO: CHANGE THIS FOR LOCATION, IF ON EDIT MODE
+        initAutocompleteFragment("");
     }
 
     private void initPictureActivity() {
@@ -180,12 +183,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
-    private void initAutocompleteFragment() {
+    private void initAutocompleteFragment(String initialLocation) {
         // Initialize the AutocompleteSupportFragment.
         autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ADDRESS, Place.Field.NAME));
+        autocompleteFragment.setText(initialLocation);
+        autocompleteFragment.setHint(this.getString(R.string.autocomplete_hint));
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -197,7 +202,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
+                Toast.makeText(EditorActivity.this,
+                        "There was an error retrieving the place", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "An error occurred: " + status);
             }
         });

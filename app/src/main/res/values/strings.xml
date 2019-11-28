@@ -41,6 +41,7 @@
 
     <string name="api_key">AIzaSyCmaDwi0IOglBttcKBtG7Tcvcktk8wq07Q</string>
     <string name="winery_name_location">Winery Name / Location</string>
+    <string name="autocomplete_hint">Location name or address</string>
 
     <string-array name="types">
         <item>Baco Noir</item>
