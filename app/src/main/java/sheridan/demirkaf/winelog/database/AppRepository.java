@@ -30,28 +30,26 @@ public class AppRepository {
     }
 
     public void addSampleData() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.wineDAO().insertAll(SampleData.getWines());
-            }
-        });
+        executor.execute(() -> mDb.wineDAO().insertAll(SampleData.getWines()));
     }
 
     public Wine getWineById(int wineId) {
         return mDb.wineDAO().getWineById(wineId);
     }
 
-    public LiveData<List<Wine>> getAllWines() {
+    private LiveData<List<Wine>> getAllWines() {
         return mDb.wineDAO().getAllWines();
     }
 
     public void deleteAllWines() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.wineDAO().deleteAll();
-            }
-        });
+        executor.execute(() -> mDb.wineDAO().deleteAll());
+    }
+
+    public void insertWine(Wine wine) {
+        executor.execute(() -> mDb.wineDAO().insertWine(wine));
+    }
+
+    public void deleteWine(Wine wine) {
+        executor.execute(() -> mDb.wineDAO().deleteWine(wine));
     }
 }

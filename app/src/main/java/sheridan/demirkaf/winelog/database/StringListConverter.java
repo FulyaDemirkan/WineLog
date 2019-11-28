@@ -13,14 +13,21 @@ public class StringListConverter {
 
     @TypeConverter
     public static ArrayList<String> fromString(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-        return new Gson().fromJson(value, listType);
+        return gson.fromJson(value, listType);
     }
 
     @TypeConverter
     public static String fromArrayList(ArrayList<String> list) {
+        if (list == null) {
+            return (null);
+        }
         Gson gson = new Gson();
-        String json = gson.toJson(list);
-        return json;
+        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+        return gson.toJson(list, listType);
     }
 }

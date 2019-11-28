@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import sheridan.demirkaf.winelog.beans.Wine;
 
-@Database(entities = {Wine.class}, version = 3)
+@Database(entities = {Wine.class}, version = 3, exportSchema = false)
 @TypeConverters({DateConverter.class, StringListConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "AppDatabase.db";

@@ -15,4 +15,7 @@ public class Constants {
 
     public static final int DELETE_All_DIALOG = 2;
     public static final String CONFIRM_DELETE_All = "confirmDeleteAll";
+
+    public static final int TAKE_PICTURE = 0;
+    public static final int PICK_PHOTO_FROM_GALLERY = 1;
 }

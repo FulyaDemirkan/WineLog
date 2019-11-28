@@ -26,7 +26,6 @@ public class MainViewModel extends AndroidViewModel {
         mRepository.addSampleData();
     }
 
-    // TODO: IMPLEMENT
     public void deleteAllWines() {
         mRepository.deleteAllWines();
     }

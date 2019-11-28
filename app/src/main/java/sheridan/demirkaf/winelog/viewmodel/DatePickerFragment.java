@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.annotation.NonNull;
@@ -12,9 +13,10 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+import sheridan.demirkaf.winelog.utility.Constants;
 
-    public static final String DATE_KEY = "dateKey";
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    private static final String TAG = "DatePickerDebug";
 
     public interface DateSetListener{
         void onDateSet(int year, int month, int dayOfMonth);
@@ -27,7 +29,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public static DatePickerFragment getInstance(Date date){
         DatePickerFragment fragment = new DatePickerFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable(DATE_KEY, date);
+        arguments.putSerializable(Constants.DATE_KEY, date);
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -37,8 +39,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Date date;
         Bundle arguments = getArguments();
+
         if(arguments != null){
-            date = (Date) arguments.getSerializable(DATE_KEY);
+            date = (Date) arguments.getSerializable(Constants.DATE_KEY);
         }else{
             date = new Date();
         }

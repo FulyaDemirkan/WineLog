@@ -64,7 +64,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_editor_absoluteX="41dp"
         app:layout_editor_absoluteY="16dp"
-        app:backgroundTint="@color/secondaryColor"
+        app:backgroundTint="@color/primaryDarkColor"
         app:srcCompat="@drawable/ic_edit"
         app:tint="@android:color/white" />
 

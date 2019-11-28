@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sheridan.demirkaf.winelog">
 
-
-
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
@@ -19,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".EditorActivity"
+            android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sheridan.demirkaf.winelog.MainActivity" />
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

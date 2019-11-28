@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -11,9 +12,9 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
+        android:backgroundTint="@color/primaryColor"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:backgroundTint="@color/primaryDarkColor">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -29,10 +30,18 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+            <ImageView
+                android:id="@+id/toolbar_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="100dp"
@@ -47,32 +56,44 @@
             android:layout_marginTop="@dimen/gap0"
             android:layout_marginEnd="@dimen/gap0"
             android:layout_marginBottom="@dimen/gap0"
-            app:backgroundTint="@color/fabColor"
+            app:backgroundTint="@color/secondaryDarkColor"
             app:srcCompat="@drawable/ic_camera"
-            app:tint="@android:color/black" />
+            app:tint="@android:color/white" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabAdd"
+            android:id="@+id/fabDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/gap0"
             android:layout_marginTop="@dimen/gap0"
             android:layout_marginEnd="@dimen/gap0"
             android:layout_marginBottom="@dimen/gap0"
-            app:backgroundTint="@color/fabColor"
+            app:backgroundTint="@color/secondaryDarkColor"
             app:srcCompat="@drawable/ic_done"
-            app:tint="@android:color/black" />
+            app:tint="@android:color/white" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_anchor="@+id/detail_container"
+        app:layout_anchorGravity="center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include layout="@layout/content_editor" />
 
     </androidx.core.widget.NestedScrollView>
 
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:background="@color/primaryColor"
+        android:contentDescription="@string/expanded_image"
+        android:scaleType="fitXY"
+        android:visibility="invisible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
