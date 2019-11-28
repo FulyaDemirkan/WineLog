@@ -5,13 +5,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sheridan.demirkaf.winelog.beans.Wine;
 import sheridan.demirkaf.winelog.utility.Constants;
+import sheridan.demirkaf.winelog.utility.ImageConverter;
+import sheridan.demirkaf.winelog.utility.ZoomActivity;
 import sheridan.demirkaf.winelog.viewmodel.AboutFragment;
 import sheridan.demirkaf.winelog.viewmodel.ConfirmFragment;
 import sheridan.demirkaf.winelog.viewmodel.DatePickerFragment;
@@ -21,13 +22,10 @@ import android.graphics.Color;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
@@ -48,7 +46,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.chip.Chip;
@@ -62,7 +59,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerFragment.DateSetListener, ConfirmFragment.ConfirmListener {
@@ -70,8 +66,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     // <a href="https://www.freepik.com/free-photos-vectors/hand">Hand vector created by freepik - www.freepik.com</a>
 
     private static final String TAG = "Debug--EditorActivity";
-    private static final int TAKE_PICTURE = 0;
-    private static final int PICK_PHOTO_FROM_GALERY = 1;
 
     private EditorViewModel mEditorViewModel;
     private TextView mTxtMainFlavours;
@@ -82,9 +76,10 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     private String mWineryName;
     private Date mDateOfVisit;
     private String mBase64Image;
+    private Bitmap mBitmap;
+    private ArrayList<String> mMainFlavours;
 
     private boolean mNewEntry, mEditing;
-    private ArrayList<String> mMainFlavours;
     private ArrayAdapter<CharSequence> mCategoryAdapter;
     private ArrayAdapter<CharSequence> mTypeAdapter;
 
@@ -172,54 +167,62 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         initCategorySpinner();
         initTypeSpinner();
         initViewModel();
+        initImage();
         initChipGroupMaterials();
     }
 
     private void initViewModel() {
         mEditorViewModel = ViewModelProviders.of(this).get(EditorViewModel.class);
-        mEditorViewModel.mLiveWine.observe(this, new Observer<Wine>() {
-            @Override
-            public void onChanged(Wine wine) {
-                if (wine != null && !mEditing) {
-                    mWineName.setText(wine.getName());
-                    mYear.setText(wine.getYear());
+        mEditorViewModel.mLiveWine.observe(this, wine -> {
+            if (wine != null && !mEditing) {
+                mWineName.setText(wine.getName());
+                mYear.setText(wine.getYear());
 
-                    mCategory = wine.getCategory();
-                    mSpinnerCategory.setSelection(mCategoryAdapter.getPosition(wine.getCategory()));
+                mCategory = wine.getCategory();
+                mSpinnerCategory.setSelection(mCategoryAdapter.getPosition(wine.getCategory()));
 
-                    mType = wine.getType();
-                    mSpinnerType.setSelection(mTypeAdapter.getPosition(wine.getType()));
+                mType = wine.getType();
+                mSpinnerType.setSelection(mTypeAdapter.getPosition(wine.getType()));
 
-                    mWineryName = wine.getWineryName();
+                mWineryName = wine.getWineryName();
 
-                    mDateOfVisit = wine.getDateOfVisit();
-                    mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this).format(wine.getDateOfVisit()));
+                mDateOfVisit = wine.getDateOfVisit();
+                mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this).format(wine.getDateOfVisit()));
 
-                    switch (wine.getStyle()) {
-                        case "Light-Bodied & Fruity":
-                            mChpGrpStyle.check(R.id.chipStyleLight);
-                            break;
-                        case "Medium-Bodied & Fruity":
-                            mChpGrpStyle.check(R.id.chipStyleMedium);
-                            break;
-                        case "Full-Bodied & Smooth":
-                            mChpGrpStyle.check(R.id.chipStyleFullSmooth);
-                            break;
-                        case "Full-Bodied & Firm":
-                            mChpGrpStyle.check(R.id.chipStyleFullFirm);
-                            break;
-                    }
+                switch (wine.getStyle()) {
+                    case "Light-Bodied & Fruity":
+                        mChpGrpStyle.check(R.id.chipStyleLight);
+                        break;
+                    case "Medium-Bodied & Fruity":
+                        mChpGrpStyle.check(R.id.chipStyleMedium);
+                        break;
+                    case "Full-Bodied & Smooth":
+                        mChpGrpStyle.check(R.id.chipStyleFullSmooth);
+                        break;
+                    case "Full-Bodied & Firm":
+                        mChpGrpStyle.check(R.id.chipStyleFullFirm);
+                        break;
+                }
 
-                    mOak.setProgress(wine.getOak());
-                    mFlavourIntensity.setProgress(wine.getFlavourIntensity());
+                mOak.setProgress(wine.getOak());
+                mFlavourIntensity.setProgress(wine.getFlavourIntensity());
 
-                    mMainFlavours = wine.getMainFlavours();
-                    for (String flavour : mMainFlavours) {
-                        addChip(flavour);
-                    }
+                mMainFlavours = wine.getMainFlavours();
+                for (String flavour : mMainFlavours) {
+                    addChip(flavour);
+                }
 
-                    mRating.setRating(wine.getRating());
-                    mTxtNotes.setText(wine.getNotes());
+                mRating.setRating(wine.getRating());
+                mTxtNotes.setText(wine.getNotes());
+
+                mBase64Image = wine.getBase64Image();
+
+                if(mBase64Image != null && !mBase64Image.equals("")) {
+                    mBitmap = ImageConverter.base64ToBitmap(wine.getBase64Image());
+                    mImageSelected.setImageBitmap(mBitmap);
+                }
+                else {
+                    mImageSelected.setImageResource(R.drawable.image_placeholder);
                 }
             }
         });
@@ -296,6 +299,10 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
+    private void initImage() {
+        mImageSelected.setOnClickListener(v -> ZoomActivity.zoomImageFromThumb(this, mBitmap, mImageSelected));
+    }
+
     private void initChipGroupMaterials() {
         mTxtLayoutMainFlavours.setEndIconOnClickListener(v -> {
             String flavour =  mTxtMainFlavours.getText() != null ? mTxtMainFlavours.getText().toString() : "";
@@ -367,7 +374,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             wine.setMainFlavours(mMainFlavours);
             wine.setRating(mRating.getRating());
             wine.setNotes(mTxtNotes.getText().toString());
-            wine.setBase64Image("");
+            wine.setBase64Image(mBase64Image);
 
             mEditorViewModel.saveWine(wine);
             finish();
@@ -494,7 +501,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
                     Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, TAKE_PICTURE);
+                    startActivityForResult(takePicture, Constants.TAKE_PICTURE);
 
                 } else if (options[item].equals("Choose from Gallery")) {
                     Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -507,7 +514,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                     Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
                     chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
 
-                    startActivityForResult(chooserIntent, PICK_PHOTO_FROM_GALERY);
+                    startActivityForResult(chooserIntent, Constants.PICK_PHOTO_FROM_GALLERY);
 
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -519,31 +526,32 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "onActivityResult: " + resultCode);
-
         Context context = this.getBaseContext();
 
         if(resultCode != RESULT_CANCELED) {
             switch (requestCode) {
-                case TAKE_PICTURE:
+                case Constants.TAKE_PICTURE:
                     if (resultCode == RESULT_OK && data != null) {
-                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
-                        mImageSelected.setImageBitmap(selectedImage);
-                    }
+                        mBitmap = (Bitmap) data.getExtras().get("data");
+                        mImageSelected.setImageBitmap(mBitmap);
 
+                    }
                     break;
-                case PICK_PHOTO_FROM_GALERY:
+                case Constants.PICK_PHOTO_FROM_GALLERY:
                     if (resultCode == RESULT_OK && data != null) {
                         try {
                             InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
-                            Bitmap imageBitmap = BitmapFactory.decodeStream(inputStream);
-                            mImageSelected.setImageBitmap(imageBitmap);
+                            mBitmap = BitmapFactory.decodeStream(inputStream);
+                            mImageSelected.setImageBitmap(mBitmap);
                         } catch (Exception e) {
                             Log.i(TAG, "onActivityResult: error with input stream");
                             Toast.makeText(context, "Image not found", Toast.LENGTH_SHORT).show();
                         }
                     }
                     break;
+            }
+            if(mBitmap != null) {
+                mBase64Image = ImageConverter.bitmapToBase64(mBitmap);
             }
         }
     }

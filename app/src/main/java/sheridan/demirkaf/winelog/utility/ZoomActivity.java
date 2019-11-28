@@ -5,12 +5,20 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toolbar;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.NestedScrollView;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import sheridan.demirkaf.winelog.R;
 
@@ -26,6 +34,11 @@ public class ZoomActivity {
             currentAnimator.cancel();
         }
 
+        AppBarLayout mAppBarLayout = activity.findViewById(R.id.app_bar);
+        LinearLayout mLinearLayout = activity.findViewById(R.id.linear_layout);
+        NestedScrollView mDetailContainer = activity.findViewById(R.id.detail_container);
+        CoordinatorLayout mCoordinatorLayout = activity.findViewById(R.id.coordinatorLayout);
+
         final ImageView expandedImageView = (ImageView) activity.findViewById(
                 R.id.expanded_image);
         expandedImageView.setImageBitmap(bitmap);
@@ -35,8 +48,7 @@ public class ZoomActivity {
         final Point globalOffset = new Point();
 
         thumbView.getGlobalVisibleRect(startBounds);
-        activity.findViewById(
-                R.id.linearlayout).getGlobalVisibleRect(finalBounds, globalOffset);
+        mCoordinatorLayout.getGlobalVisibleRect(finalBounds, globalOffset);
         startBounds.offset(-globalOffset.x, -globalOffset.y);
         finalBounds.offset(-globalOffset.x, -globalOffset.y);
 
@@ -58,6 +70,11 @@ public class ZoomActivity {
 
         thumbView.setAlpha(0f);
         expandedImageView.setVisibility(View.VISIBLE);
+
+        mAppBarLayout.setVisibility(View.INVISIBLE);
+        mLinearLayout.setVisibility(View.INVISIBLE);
+        mDetailContainer.setVisibility(View.INVISIBLE);
+        mCoordinatorLayout.setBackgroundColor(activity.getApplicationContext().getResources().getColor(R.color.primaryColor));
 
         expandedImageView.setPivotX(0f);
         expandedImageView.setPivotY(0f);
@@ -115,6 +132,10 @@ public class ZoomActivity {
                     public void onAnimationEnd(Animator animation) {
                         thumbView.setAlpha(1f);
                         expandedImageView.setVisibility(View.GONE);
+                        mAppBarLayout.setVisibility(View.VISIBLE);
+                        mLinearLayout.setVisibility(View.VISIBLE);
+                        mDetailContainer.setVisibility(View.VISIBLE);
+                        mCoordinatorLayout.setBackgroundResource(android.R.drawable.screen_background_light);
                         currentAnimator = null;
                     }
 
@@ -122,6 +143,10 @@ public class ZoomActivity {
                     public void onAnimationCancel(Animator animation) {
                         thumbView.setAlpha(1f);
                         expandedImageView.setVisibility(View.GONE);
+                        mAppBarLayout.setVisibility(View.VISIBLE);
+                        mLinearLayout.setVisibility(View.VISIBLE);
+                        mDetailContainer.setVisibility(View.VISIBLE);
+                        mCoordinatorLayout.setBackgroundResource(android.R.drawable.screen_background_light);
                         currentAnimator = null;
                     }
                 });
