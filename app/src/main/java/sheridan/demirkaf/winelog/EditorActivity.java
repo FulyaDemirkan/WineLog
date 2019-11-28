@@ -214,7 +214,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                     mFlavourIntensity.setProgress(wine.getFlavourIntensity());
 
                     mMainFlavours = wine.getMainFlavours();
-                    for (String flavour: mMainFlavours) {
+                    for (String flavour : mMainFlavours) {
                         addChip(flavour);
                     }
 
@@ -222,7 +222,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                     mTxtNotes.setText(wine.getNotes());
                 }
             }
-          Bundle extras = getIntent().getExtras();
+        });
+
+        Bundle extras = getIntent().getExtras();
         if(extras == null)
         {
             setTitle(R.string.new_entry);
