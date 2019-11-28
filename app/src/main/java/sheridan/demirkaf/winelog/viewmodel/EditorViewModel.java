@@ -17,7 +17,7 @@ import sheridan.demirkaf.winelog.beans.Wine;
 import sheridan.demirkaf.winelog.database.AppRepository;
 
 public class EditorViewModel extends AndroidViewModel {
-    private static final String TAG = "EditorViewModelDebug";
+    private static final String TAG = "Debug--EditorViewModel";
 
     public MutableLiveData<Wine> mLiveWine = new MutableLiveData<>();
     private AppRepository mRepository;
@@ -38,12 +38,8 @@ public class EditorViewModel extends AndroidViewModel {
     public void saveWine(Wine wine) {
         Wine wineToEdit = mLiveWine.getValue();
 
-        Log.i(TAG, "wineToEdit " + wineToEdit);
-        Log.i(TAG, "wineToEdit.getId " + wineToEdit.getId());
-
         if(wineToEdit == null) {
             wineToEdit = wine;
-            Log.i(TAG, "wineToEdit.getId - null " + wineToEdit.getId());
         } else {
             wineToEdit.setName(wine.getName());
             wineToEdit.setYear(wine.getYear());

@@ -1,6 +1,5 @@
 package sheridan.demirkaf.winelog;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
@@ -13,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sheridan.demirkaf.winelog.beans.Wine;
+import sheridan.demirkaf.winelog.ui.RecyclerViewAdapter;
 import sheridan.demirkaf.winelog.utility.Constants;
 import sheridan.demirkaf.winelog.viewmodel.AboutFragment;
 import sheridan.demirkaf.winelog.viewmodel.ConfirmFragment;
@@ -23,8 +23,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;

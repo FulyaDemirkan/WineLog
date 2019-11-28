@@ -130,12 +130,11 @@
         android:text="@string/label_category"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-        android:id="@+id/spinner_search_category"
+    <Spinner
+        android:id="@+id/spinner_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/gap1"
-        app:hintText="@string/hint_select_one" />
+        android:layout_marginBottom="@dimen/gap1" />
 
     <TextView
         android:id="@+id/label_type"
@@ -147,12 +146,11 @@
         android:text="@string/label_type"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
-        android:id="@+id/spinner_search_type"
+    <Spinner
+        android:id="@+id/spinner_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/gap1"
-        app:hintText="@string/hint_select_one" />
+        android:layout_marginBottom="@dimen/gap1" />
 
 
     <com.google.android.material.chip.ChipGroup

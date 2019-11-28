@@ -1,4 +1,4 @@
-package sheridan.demirkaf.winelog;
+package sheridan.demirkaf.winelog.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import sheridan.demirkaf.winelog.EditorActivity;
+import sheridan.demirkaf.winelog.R;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,7 +32,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private final Context mContext;
     private final List<Wine> mWineList;
 
-    RecyclerViewAdapter(Context mContext, List<Wine> mWineList) {
+    public RecyclerViewAdapter(Context mContext, List<Wine> mWineList) {
         this.mContext = mContext;
         this.mWineList = mWineList;
     }
@@ -67,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mWineList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.listName)
         TextView txtName;
 

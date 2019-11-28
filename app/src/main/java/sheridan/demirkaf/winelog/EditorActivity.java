@@ -16,6 +16,7 @@ import sheridan.demirkaf.winelog.viewmodel.ConfirmFragment;
 import sheridan.demirkaf.winelog.viewmodel.DatePickerFragment;
 import sheridan.demirkaf.winelog.viewmodel.EditorViewModel;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -32,7 +33,6 @@ import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -46,19 +46,18 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerFragment.DateSetListener, ConfirmFragment.ConfirmListener {
 
     // <a href="https://www.freepik.com/free-photos-vectors/hand">Hand vector created by freepik - www.freepik.com</a>
 
-    private static final String TAG = "EditorActivityDebug";
+    private static final String TAG = "Debug--EditorActivity";
 
     private EditorViewModel mEditorViewModel;
     private TextView mTxtMainFlavours;
@@ -72,6 +71,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     private boolean mNewEntry, mEditing;
     private ArrayList<String> mMainFlavours;
+    private ArrayAdapter<CharSequence> mCategoryAdapter;
+    private ArrayAdapter<CharSequence> mTypeAdapter;
 
     @BindView(R.id.txtWineName)
     TextView mWineName;
@@ -81,6 +82,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     @BindView(R.id.txt_date_of_visit)
     TextView mTxtDateOfVisit;
+
+    @BindView(R.id.spinner_category)
+    Spinner mSpinnerCategory;
+
+    @BindView(R.id.spinner_type)
+    Spinner mSpinnerType;
 
     @BindView(R.id.chipGrpStyle)
     ChipGroup mChpGrpStyle;
@@ -127,7 +134,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         FloatingActionButton mFabDone = findViewById(R.id.fabDone);
         mFabDone.setOnClickListener(view -> saveWine());
 
-        mMainFlavours = new ArrayList<String>();
+        mMainFlavours = new ArrayList<>();
         mTxtLayoutMainFlavours = findViewById(R.id.txtLayoutMainFlavours);
         mTxtMainFlavours = findViewById(R.id.txtMainFlavours);
 
@@ -144,9 +151,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         PlacesClient placesClient = Places.createClient(this);
         
         initAutocompleteFragment();
-        initViewModel();
         initCategorySpinner();
         initTypeSpinner();
+        initViewModel();
         initChipGroupMaterials();
     }
 
@@ -155,37 +162,38 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         mEditorViewModel.mLiveWine.observe(this, new Observer<Wine>() {
             @Override
             public void onChanged(Wine wine) {
-                Log.i(TAG, "wine " + wine.toString());
                 if (wine != null && !mEditing) {
                     mWineName.setText(wine.getName());
                     mYear.setText(wine.getYear());
+
                     mCategory = wine.getCategory();
+                    mSpinnerCategory.setSelection(mCategoryAdapter.getPosition(wine.getCategory()));
+
                     mType = wine.getType();
+                    mSpinnerType.setSelection(mTypeAdapter.getPosition(wine.getType()));
+
                     mWineryName = wine.getWineryName();
 
                     mDateOfVisit = wine.getDateOfVisit();
                     mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(EditorActivity.this).format(wine.getDateOfVisit()));
 
                     switch (wine.getStyle()) {
-                        case "Light-Bodied &amp; Fruity":
+                        case "Light-Bodied & Fruity":
                             mChpGrpStyle.check(R.id.chipStyleLight);
                             break;
-                        case "Medium-Bodied &amp; Fruity":
+                        case "Medium-Bodied & Fruity":
                             mChpGrpStyle.check(R.id.chipStyleMedium);
                             break;
-                        case "Full-Bodied &amp; Smooth":
+                        case "Full-Bodied & Smooth":
                             mChpGrpStyle.check(R.id.chipStyleFullSmooth);
                             break;
-                        case "Full-Bodied &amp; Firm":
+                        case "Full-Bodied & Firm":
                             mChpGrpStyle.check(R.id.chipStyleFullFirm);
                             break;
                     }
 
                     mOak.setProgress(wine.getOak());
                     mFlavourIntensity.setProgress(wine.getFlavourIntensity());
-
-                    Log.i(TAG, "mainflavours " + mMainFlavours);
-                    Log.i(TAG, "wine.mainflavours " + wine.getMainFlavours());
 
                     mMainFlavours = wine.getMainFlavours();
                     for (String flavour: mMainFlavours) {
@@ -213,31 +221,21 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void initCategorySpinner() {
-        Spinner categorySpinner = findViewById(R.id.spinner_search_category);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        mSpinnerCategory = findViewById(R.id.spinner_category);
+        mCategoryAdapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(adapter);
-        categorySpinner.setOnItemSelectedListener(this);
-
-        if (mCategory != null) {
-            int spinnerPosition = adapter.getPosition(mCategory);
-            categorySpinner.setSelection(spinnerPosition);
-        }
+        mCategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerCategory.setAdapter(mCategoryAdapter);
+        mSpinnerCategory.setOnItemSelectedListener(this);
     }
 
     private void initTypeSpinner() {
-        Spinner typeSpinner = findViewById(R.id.spinner_search_type);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        mSpinnerType = findViewById(R.id.spinner_type);
+        mTypeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(adapter);
-        typeSpinner.setOnItemSelectedListener(this);
-
-        if (mType != null) {
-            int spinnerPosition = adapter.getPosition(mType);
-            typeSpinner.setSelection(spinnerPosition);
-        }
+        mTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerType.setAdapter(mTypeAdapter);
+        mSpinnerType.setOnItemSelectedListener(this);
     }
 
     private void initDatePicker() {
@@ -358,27 +356,27 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             return false;
         }
 
-        if(mCategory == null || mCategory.isEmpty()){
-            mWineName.setError("Category cannot be empty");
+        if(mCategory == null || mCategory.isEmpty() || mCategory.equals("Select One...")){
+            TextView errorText = (TextView)mSpinnerCategory.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText(getString(R.string.error_select_category));
             return false;
         }
-
+/*
         if(mWineryName == null || mWineryName.isEmpty()) {
-            mWineName.setError("Winery name cannot be empty");
+            mWineryName.setError("Winery name cannot be empty");
             return false;
-        }
+        }*/
         return true;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String selectedItem = parent.getItemAtPosition(position).toString();
+        String selectedItem = parent.getItemAtPosition(position) != null ? parent.getItemAtPosition(position).toString() : "";
         ImageView mToolbarImage = findViewById(R.id.toolbar_image);
 
-        if(parent.getId() == R.id.spinner_search_category) {
-
-            Log.i(TAG, selectedItem);
-            Log.i(TAG, "mToolbarImage == null" + (mToolbarImage == null));
+        if(parent.getId() == R.id.spinner_category) {
             switch (selectedItem) {
                 case "White Wine":
                     Objects.requireNonNull(mToolbarImage).setImageResource(R.drawable.white_wine);
@@ -399,7 +397,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     @Override
@@ -458,6 +455,4 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             finish();
         }
     }
-
-
 }

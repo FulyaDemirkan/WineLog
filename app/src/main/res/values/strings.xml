@@ -6,7 +6,7 @@
     <string name="hint_text_date_of_visit">Date of Visit</string>
     <string name="label_category">Category</string>
     <string name="label_type">Type</string>
-    <string name="hint_select_one">Select One</string>
+    <string name="error_select_category">Category cannot be empty</string>
 
     <string name="label_style">Style</string>
     <string name="style_light">Light-Bodied &amp; Fruity</string>
@@ -50,6 +50,7 @@
     <string name="delete_all_confirmation">Do you want to delete all wines?</string>
 
     <string-array name="types">
+        <item>Select One...</item>
         <item>Baco Noir</item>
         <item>Barbera</item>
         <item>Cabernet Franc</item>
@@ -75,6 +76,7 @@
     </string-array>
 
     <string-array name="categories">
+        <item>Select One...</item>
         <item>Red Wine</item>
         <item>White Wine</item>
         <item>Rosé Wine</item>
