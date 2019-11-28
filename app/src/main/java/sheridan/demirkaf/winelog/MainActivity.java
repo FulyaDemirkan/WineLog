@@ -28,8 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ConfirmFragment.ConfirmListener {
-    public static final int REQUEST_CODE = 1;
-    private static final String TAG = "MainActivityDebug";
+    private static final String TAG = "Debug--MainActivity";
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
