@@ -1,6 +1,7 @@
 package sheridan.demirkaf.winelog;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
@@ -17,7 +18,16 @@ import sheridan.demirkaf.winelog.viewmodel.DatePickerFragment;
 import sheridan.demirkaf.winelog.viewmodel.EditorViewModel;
 
 import android.graphics.Color;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
@@ -33,6 +43,7 @@ import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -47,6 +58,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,6 +70,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     // <a href="https://www.freepik.com/free-photos-vectors/hand">Hand vector created by freepik - www.freepik.com</a>
 
     private static final String TAG = "Debug--EditorActivity";
+    private static final int TAKE_PICTURE = 0;
+    private static final int PICK_PHOTO_FROM_GALERY = 1;
 
     private EditorViewModel mEditorViewModel;
     private TextView mTxtMainFlavours;
@@ -79,6 +93,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
     @BindView(R.id.txtYear)
     TextView mYear;
+
+    @BindView(R.id.fabTakePicture)
+    FloatingActionButton mCameraButton;
+
+    @BindView(R.id.imgWine)
+    ImageView mImageSelected;
 
     @BindView(R.id.txt_date_of_visit)
     TextView mTxtDateOfVisit;
@@ -142,13 +162,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         mTxtDateOfVisit.setText(DateFormat.getLongDateFormat(this).format(mDateOfVisit));
 
         initDatePicker();
+        initPictureActivity();
 
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
-
-        // Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
         
         initAutocompleteFragment();
         initCategorySpinner();
@@ -204,9 +222,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                     mTxtNotes.setText(wine.getNotes());
                 }
             }
-        });
-
-        Bundle extras = getIntent().getExtras();
+          Bundle extras = getIntent().getExtras();
         if(extras == null)
         {
             setTitle(R.string.new_entry);
@@ -219,7 +235,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             mEditorViewModel.loadData(wineId);
         }
     }
-
+                                           
+    private void initPictureActivity() {
+        mCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage(EditorActivity.this);
+            }
+        });
+    }
+                                           
     private void initCategorySpinner() {
         mSpinnerCategory = findViewById(R.id.spinner_category);
         mCategoryAdapter = ArrayAdapter.createFromResource(this,
@@ -453,6 +478,71 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         {
             mEditorViewModel.deleteWine();
             finish();
+        }
+    }
+
+    private void selectImage(Context context) {
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Wine Picture");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo")) {
+                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, TAKE_PICTURE);
+
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    getIntent.setType("image/*");
+
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pickIntent.setType("image/*");
+
+                    Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
+
+                    startActivityForResult(chooserIntent, PICK_PHOTO_FROM_GALERY);
+
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult: " + resultCode);
+
+        Context context = this.getBaseContext();
+
+        if(resultCode != RESULT_CANCELED) {
+            switch (requestCode) {
+                case TAKE_PICTURE:
+                    if (resultCode == RESULT_OK && data != null) {
+                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
+                        mImageSelected.setImageBitmap(selectedImage);
+                    }
+
+                    break;
+                case PICK_PHOTO_FROM_GALERY:
+                    if (resultCode == RESULT_OK && data != null) {
+                        try {
+                            InputStream inputStream = context.getContentResolver().openInputStream(data.getData());
+                            Bitmap imageBitmap = BitmapFactory.decodeStream(inputStream);
+                            mImageSelected.setImageBitmap(imageBitmap);
+                        } catch (Exception e) {
+                            Log.i(TAG, "onActivityResult: error with input stream");
+                            Toast.makeText(context, "Image not found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    break;
+            }
         }
     }
 }
