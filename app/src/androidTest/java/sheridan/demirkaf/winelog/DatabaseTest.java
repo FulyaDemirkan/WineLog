@@ -25,23 +25,28 @@ public class DatabaseTest {
     private WineDAO mDao;
 
     @Before
-    public void createDb() {
+    public void createDbAndAddSampleData() {
         Context context = InstrumentationRegistry.getInstrumentation().getContext();
         mDb = Room.inMemoryDatabaseBuilder(context,
                 AppDatabase.class).build();
         mDao = mDb.wineDAO();
-        Log.i(TAG, "createDb");
+        Log.i(TAG, "createDbAndAddSampleData: created db");
+        mDao.insertAll(SampleData.getWines());
+        Log.i(TAG, "createDbAndAddSampleData: added sample data");
     }
 
     @After
-    public void closeDb() {
+    public void deleteSamplesAndCloseDb() {
+        for (Wine wine : SampleData.getWines()) {
+            mDao.deleteWine(wine);
+        }
+        Log.i(TAG, "deleteSamplesAndCloseDb: all sample wines deleted");
         mDb.close();
-        Log.i(TAG, "closeDb");
+        Log.i(TAG, "db closed");
     }
 
     @Test
-    public void createAndRetrieveTasks() {
-        mDao.insertAll(SampleData.getWines());
+    public void createAndRetrieveWines() {
         int count = mDao.getCount();
         Log.i(TAG, "createAndRetrieveWines: count=" + count);
         assertEquals(SampleData.getWines().size(), count);
@@ -49,10 +54,30 @@ public class DatabaseTest {
 
     @Test
     public void compareStrings() {
-        mDao.insertAll(SampleData.getWines());
         Wine original = SampleData.getWines().get(0);
         Wine fromDb = mDao.getWineById(1);
         assertEquals(original.getNotes(), fromDb.getNotes());
         assertEquals(1, fromDb.getId());
+        Log.i(TAG, "compareStrings: what was stored in db matches object");
+    }
+    
+    @Test
+    public void updateWine() {
+        String newNote = "This is an unit test note";
+        Wine wine = mDao.getWineByName("Wine1");
+        wine.setNotes(newNote);
+        mDao.insertWine(wine);
+        Wine updatedWine = mDao.getWineByName("Wine1");
+        assertEquals(updatedWine.getNotes(), newNote);
+        Log.i(TAG, "updateWine: wine was updated");
+    }
+
+    @Test
+    public void deleteWine() {
+        Wine wineToBeDeleted = mDao.getWineByName("Wine1");
+        mDao.deleteWine(wineToBeDeleted);
+        Wine wineDeleted = mDao.getWineByName("Wine1");
+        assertEquals(wineDeleted, null);
+        Log.i(TAG, "deleteWine: deleted wine");
     }
 }
