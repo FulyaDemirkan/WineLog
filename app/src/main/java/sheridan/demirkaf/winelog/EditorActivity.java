@@ -38,7 +38,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -408,12 +407,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             mWineName.setError("Wine name cannot be empty");
             return false;
         }
-//
-        if(mCategory == null || mCategory.isEmpty() || mCategory.equals("Select One...")){
-            TextView errorText = (TextView)mSpinnerCategory.getSelectedView();
-            errorText.setError("");
-            errorText.setTextColor(Color.RED);
-            errorText.setText(getString(R.string.error_select_category));
+
+        String yearText = mYear.getText().toString();
+        int year = !yearText.equals("") ? Integer.parseInt(yearText) : -1;
+
+        if(year != -1 && (year < 1930 || year > 2050)) {
+            mYear.setError("Year must be between 1930 and 2050.");
             return false;
         }
 
@@ -421,6 +420,14 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             inputAutocomplete.setError("Location cannot be empty");
             inputAutocomplete.setHintTextColor(Color.RED);
             autocompleteFragment.setHint("Location cannot be empty");
+            return false;
+        }
+
+        if(mCategory == null || mCategory.isEmpty() || mCategory.equals("Select One...")){
+            TextView errorText = (TextView)mSpinnerCategory.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText(getString(R.string.error_select_category));
             return false;
         }
         return true;
@@ -438,6 +445,12 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                     break;
                 case "Red Wine":
                     Objects.requireNonNull(mToolbarImage).setImageResource(R.drawable.red_wine);
+                    break;
+                case "Ice Wine":
+                    Objects.requireNonNull(mToolbarImage).setImageResource(R.drawable.ice_wine);
+                    break;
+                case "Rosé Wine":
+                    Objects.requireNonNull(mToolbarImage).setImageResource(R.drawable.rose_wine);
                     break;
                 default:
                     Objects.requireNonNull(mToolbarImage).setImageResource(R.drawable.other_wine);
@@ -559,7 +572,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                     if (resultCode == RESULT_OK && data != null) {
                         mBitmap = (Bitmap) data.getExtras().get("data");
                         mImageSelected.setImageBitmap(mBitmap);
-
                     }
                     break;
                 case Constants.PICK_PHOTO_FROM_GALLERY:
