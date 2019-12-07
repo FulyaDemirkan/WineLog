@@ -48,7 +48,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Wine wine = mWineList.get(i);
-        viewHolder.txtName.setText(wine.getName());
+        String listName = wine.getName();
+        listName += wine.getYear().isEmpty() ? "" : (", " + wine.getYear());
+
+        viewHolder.txtName.setText(listName);
+
+        viewHolder.txtWineryName.setText(wine.getWineryName());
 
         if(wine.getBase64Image() != null && !wine.getBase64Image().equals("")) {
             Bitmap bitmap = ImageConverter.base64ToBitmap(wine.getBase64Image());
@@ -73,6 +78,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.listName)
         TextView txtName;
+
+        @BindView(R.id.listWinery)
+        TextView txtWineryName;
 
         @BindView(R.id.listImageView)
         ImageView imageView;
