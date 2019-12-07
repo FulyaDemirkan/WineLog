@@ -1,3 +1,19 @@
+/**
+ * Project: Christmas Wish List
+ * Authors:
+ *  - Fulya Demirkan
+ *  - Augusto Peres
+ * Date: Dec. 07, 2019
+ *
+ * Project Description:
+ * This app allows the user to add wines tasted, mostly for wine tasting trips. The user can add
+ * several information such as name, location tasted, date tasted, notes and many characteristics
+ * of the wine in a very intuitive and simple way. Moreover, a picture of the wine can be added
+ * either from the camera or from the user's device. The location is tied with Google's Place API,
+ * allowing for a very quick entry. The wines added will be displayed in a RecycleView in the main
+ * page and will be stored in a DB in the user's device.
+ */
+
 package sheridan.demirkaf.winelog;
 
 import androidx.appcompat.app.AppCompatActivity;
