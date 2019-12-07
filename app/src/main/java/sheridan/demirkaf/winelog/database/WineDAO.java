@@ -25,6 +25,9 @@ public interface WineDAO {
     @Query("SELECT * FROM wine WHERE id = :id")
     Wine getWineById(int id);
 
+    @Query("SELECT * FROM wine WHERE name = :name")
+    Wine getWineByName(String name);
+
     @Query("SELECT * FROM wine ORDER BY dateOfVisit DESC")
     LiveData<List<Wine>> getAllWines();
 

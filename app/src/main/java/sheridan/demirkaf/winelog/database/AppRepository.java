@@ -37,6 +37,10 @@ public class AppRepository {
         return mDb.wineDAO().getWineById(wineId);
     }
 
+    public Wine getWineByName(String wineName) {
+        return mDb.wineDAO().getWineByName(wineName);
+    }
+
     private LiveData<List<Wine>> getAllWines() {
         return mDb.wineDAO().getAllWines();
     }
