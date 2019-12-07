@@ -1,5 +1,5 @@
 /**
- * Project: Christmas Wish List
+ * Project: WineLog
  * Authors:
  *  - Fulya Demirkan
  *  - Augusto Peres
